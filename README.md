@@ -1,73 +1,73 @@
-# Test Assignment: Interactive Line Chart
+# React + TypeScript + Vite
 
-## Goal
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Build an interactive **Line Chart** to visualize A/B test statistics.
+Currently, two official plugins are available:
 
-The project **must be published on GitHub Pages**.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
----
+## React Compiler
 
-## Data
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Use data from `data.json`, which contains fields `date`, `visits`, and `conversions` for each variation.
+## Expanding the ESLint configuration
 
-You need to calculate:
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
 ```js
-conversionRate = (conversions / visits) * 100;
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## Design
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-The design mockup is provided in the file `mockup.sketch`.
-
-You can open it using **[Lunacy](https://icons8.ru/lunacy)** — a free Sketch-compatible design tool available for all operating systems.
-
----
-
-## Requirements
-
-- Display a **conversion rate (conversionRate)** line chart for all variations, showing all values as **percentages**.
-- On **hover**, show a **vertical line** and a **popup** with daily data.
-- At least **one variation must always be selected**.
-- When variations are toggled, both X and Y axes must **adapt automatically** to the visible data range.
-- Display all values as **percentages**.
-- Responsive layout for screens between **671 px** and **1300 px**.
-- Controls:
-  - **Variations selector** (choose which lines to display)
-  - **Day / Week selector**
-
----
-
-## Bonus Features
-
-- Zoom / Reset zoom
-- Line style selector (`Line`, `Smooth`, `Area`)
-- Light / Dark theme toggle
-- Export chart to PNG
-
----
-
-## Tech Stack
-
-- **React + TypeScript**
-- Any charting library (e.g. **D3**, **VisX**, **Recharts**, etc.)
-- Use **CSS Modules** for component styling.
-- The project must:
-  1. Be published on **GitHub Pages**
-  2. Include a **README** with setup instructions and a short feature overview
-
----
-
-## Deliverables
-
-1. GitHub repository with full source code
-2. Live demo on GitHub Pages
-3. Clear README including:
-   - Chosen visualization library
-   - Implemented and bonus features
-   - Local setup instructions
-
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
