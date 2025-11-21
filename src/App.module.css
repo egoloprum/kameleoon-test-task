@@ -1,0 +1,16 @@
+.controlBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.controlBarLeftSide {
+  display: flex;
+  gap: 8px;
+}
+
+.controlBarRightSide {
+}
+
+.chart {
+  margin-top: 10px;
+}
