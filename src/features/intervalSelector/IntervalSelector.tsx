@@ -24,7 +24,7 @@ export const IntervalSelector = () => {
           pressed={selectedInterval === 'Day'}
           onPressedChange={() => handleIntervalSelect('Day')}
           aria-label="Interval day"
-          className="data-[state=on]:bg-transparent data-[state=on]:text-foreground justify-start gap-2"
+          className="justify-start gap-2"
         >
           {selectedInterval === 'Day' ? <SquareCheck /> : <Square />}
           Day
@@ -33,7 +33,7 @@ export const IntervalSelector = () => {
           pressed={selectedInterval === 'Week'}
           onPressedChange={() => handleIntervalSelect('Week')}
           aria-label="Interval week"
-          className="data-[state=on]:bg-transparent data-[state=on]:text-foreground justify-start gap-2"
+          className="justify-start gap-2"
         >
           {selectedInterval === 'Week' ? <SquareCheck /> : <Square />}
           Week

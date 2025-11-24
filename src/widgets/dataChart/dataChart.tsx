@@ -13,18 +13,47 @@ import { chartData } from './chartData'
 import { safeGet, transformDataByInterval } from './charthelper'
 import { Calendar, Trophy } from 'lucide-react'
 
-const variations = [
+interface Variation {
+  id: number
+  name: string
+  colorStroke: string
+  colorFill: string
+}
+
+interface DataChartProps {
+  selectedVariations: string[]
+  selectedLineStyle: 'Line' | 'Smooth' | 'Area'
+  selectedInterval: 'Day' | 'Week'
+}
+
+interface TransformedDataItem {
+  date: string
+  [key: string]: number | string
+}
+
+interface TooltipProps {
+  active?: boolean
+  payload?: Array<{
+    dataKey: string
+    value?: number
+    payload: Record<string, unknown>
+  }>
+  label?: string
+  selectedInterval: 'Day' | 'Week'
+}
+
+const variations: Variation[] = [
   {
     id: 0,
     name: 'Original',
     colorStroke: '#4142EF',
-    colorFill: '3838E7',
+    colorFill: '#3838E7',
   },
   {
     id: 10001,
     name: 'Variation A',
     colorStroke: '#46464F',
-    colorFill: '303039',
+    colorFill: '#303039',
   },
   {
     id: 10002,
@@ -36,14 +65,71 @@ const variations = [
     id: 10003,
     name: 'Variation C',
     colorStroke: '#35BDAD',
-    colorFill: '#7cebdeff',
+    colorFill: '#7cebde',
   },
 ]
 
-interface DataChartProps {
-  selectedVariations: string[]
-  selectedLineStyle: 'Line' | 'Smooth' | 'Area'
-  selectedInterval: 'Day' | 'Week'
+const variationMap = variations.reduce((acc, variation) => {
+  acc[variation.name] = variation
+  return acc
+}, {} as Record<string, Variation>)
+
+const CustomTooltip = ({ active, payload, label, selectedInterval }: TooltipProps) => {
+  if (!active || !payload) return null
+
+  const sortedPayload = [...payload].sort((a, b) => (b.value || 0) - (a.value || 0))
+
+  let displayDate = ''
+  if (selectedInterval === 'Week' && label) {
+    const match = (label as string).match(/(\d{4})-W(\d{2})/)
+    if (match) {
+      displayDate = `Week of ${match[2]}/${match[1]}`
+    } else {
+      displayDate = label
+    }
+  } else if (label) {
+    const date = new Date(label)
+    displayDate = date.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    })
+  }
+
+  return (
+    <div className="min-w-[200px] rounded border bg-background p-3 shadow-sm">
+      <div className="font-medium flex gap-2 items-center">
+        <Calendar className="w-4 h-4" />
+        {displayDate}
+      </div>
+      <hr className="my-2" />
+      <div className="space-y-2">
+        {sortedPayload.map((entry, index) => {
+          const variationName = entry.dataKey as string
+          const variation = variationMap[variationName]
+          if (!variation) return null
+
+          return (
+            <div key={variationName} className="border border-dashed rounded-sm">
+              <div className="flex justify-between items-center py-1">
+                <div className="flex items-center gap-1">
+                  <div
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: variation.colorStroke }}
+                  />
+                  <span className="text-xs">{variation.name}</span>
+                  {index === 0 && <Trophy className="w-4 h-4" />}
+                </div>
+                <div className="text-right">
+                  <span className="font-medium">{entry.value?.toFixed(2)}%</span>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
 }
 
 export const DataChart = ({
@@ -53,8 +139,8 @@ export const DataChart = ({
 }: DataChartProps) => {
   const intervalData = transformDataByInterval(chartData, variations, selectedInterval)
 
-  const transformedChartData = intervalData.map(item => {
-    const calculateConversionRate = (variationId: string) => {
+  const transformedChartData: TransformedDataItem[] = intervalData.map(item => {
+    const calculateConversionRate = (variationId: string): number => {
       try {
         const visits = safeGet(item.visits, variationId)
         const conversions = safeGet(item.conversions, variationId)
@@ -65,7 +151,7 @@ export const DataChart = ({
       }
     }
 
-    const dataPoint: any = {
+    const dataPoint: TransformedDataItem = {
       date: item.date,
     }
 
@@ -75,7 +161,6 @@ export const DataChart = ({
         const dataKey = variation.name
         dataPoint[dataKey] = calculateConversionRate(variationId)
 
-        // Keep original data for tooltip
         dataPoint[`${dataKey}Visits`] = safeGet(item.visits, variationId)
         dataPoint[`${dataKey}Conversions`] = safeGet(item.conversions, variationId)
       } catch {
@@ -93,17 +178,16 @@ export const DataChart = ({
     selectedVariations.includes(variation.name)
   )
 
-  // Determine chart type and line type based on selected line style
   const ChartComponent = selectedLineStyle === 'Area' ? AreaChart : LineChart
-  const lineType = selectedLineStyle === 'Smooth' ? 'monotone' : 'linear'
+  const lineType = selectedLineStyle === 'Line' ? 'linear' : 'monotone'
 
-  const renderChartElement = (variation: (typeof variations)[0]) => {
+  const renderChartElement = (variation: Variation) => {
     if (selectedLineStyle === 'Area') {
       return (
         <Area
           key={variation.name}
           dataKey={variation.name}
-          type={lineType}
+          type="monotone"
           stroke={variation.colorStroke}
           fill={variation.colorFill}
           fillOpacity={0.3}
@@ -127,66 +211,6 @@ export const DataChart = ({
     }
   }
 
-  // Create a mapping for tooltip data access
-  const variationMap = variations.reduce((acc, variation) => {
-    const key = variation.name
-    acc[key] = variation
-    return acc
-  }, {} as Record<string, (typeof variations)[0]>)
-
-  const CustomTooltip = ({ active, payload, label, selectedInterval }: any) => {
-    if (!active || !payload) return null
-
-    // Sort payload by value in descending order
-    const sortedPayload = [...payload].sort((a, b) => (b.value || 0) - (a.value || 0))
-
-    const match = label.match(/(\d{4})-W(\d{2})/)
-
-    return (
-      <div className="min-w-[200px] rounded border bg-background p-3 shadow-sm">
-        <div className="mb-2 font-medium flex gap-2 items-center">
-          <Calendar className="w-4 h-4" />
-          {selectedInterval === 'Week'
-            ? `Week of ${match[2]}/${match[1]}`
-            : new Date(label).toLocaleDateString('en-GB', {
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric',
-              })}
-        </div>
-        <div className="space-y-2">
-          {sortedPayload.map((entry, index) => {
-            const variationName = entry.dataKey as string
-            const variation = variationMap[variationName]
-            if (!variation) return null
-
-            return (
-              <>
-                <hr />
-                <div
-                  key={variationName}
-                  className="flex justify-between items-center border border-dashed py-1"
-                >
-                  <div className="flex items-center gap-1">
-                    <div
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: variation.colorStroke }}
-                    />
-                    <span className="text-xs">{variation.name}</span>
-                    {index === 0 ? <Trophy className="w-4 h-4" /> : ''}
-                  </div>
-                  <div className="text-right">
-                    <span className="font-medium">{entry.value?.toFixed(2)}%</span>
-                  </div>
-                </div>
-              </>
-            )
-          })}
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div>
       <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
@@ -201,7 +225,6 @@ export const DataChart = ({
           }}
         >
           <CartesianGrid vertical={false} horizontal={true} stroke="#e0e0e0" />
-          {/* Add custom vertical dotted lines */}
           {transformedChartData.map((entry, index) => (
             <ReferenceLine key={index} x={entry.date} stroke="#e0e0e0" strokeDasharray="5 5" />
           ))}
@@ -213,14 +236,13 @@ export const DataChart = ({
             minTickGap={selectedInterval === 'Week' ? 16 : 32}
             tickFormatter={value => {
               if (selectedInterval === 'Week') {
-                // For week format: "2025-W01"
-                const match = value.match(/(\d{4})-W(\d{2})/)
+                const match = String(value).match(/(\d{4})-W(\d{2})/)
                 if (match) {
                   return `W${match[2]}`
                 }
-                return value
+                return String(value)
               }
-              const date = new Date(value)
+              const date = new Date(String(value))
               return date.toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
@@ -231,14 +253,13 @@ export const DataChart = ({
             tickLine={false}
             axisLine={false}
             tickMargin={8}
-            tickFormatter={value => `${value.toFixed(0)}%`}
+            tickFormatter={value => `${Number(value).toFixed(0)}%`}
             width={50}
           />
           <ChartTooltip
             content={<CustomTooltip selectedInterval={selectedInterval} />}
             cursor={<ReferenceLine x={0} stroke="var(--border)" strokeWidth={1} />}
           />
-          {/* Render chart elements for each selected variation */}
           {visibleVariations.map(renderChartElement)}
         </ChartComponent>
       </ChartContainer>
@@ -250,19 +271,19 @@ const chartConfig = {
   conversionRate: {
     label: 'Conversion Rate',
   },
-  original: {
+  Original: {
     label: 'Original',
     color: '#4142EF',
   },
-  variationA: {
+  'Variation A': {
     label: 'Variation A',
     color: '#46464F',
   },
-  variationB: {
+  'Variation B': {
     label: 'Variation B',
     color: '#FF8346',
   },
-  variationC: {
+  'Variation C': {
     label: 'Variation C',
     color: '#35BDAD',
   },

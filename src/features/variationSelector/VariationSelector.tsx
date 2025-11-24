@@ -29,7 +29,6 @@ export const VariationSelector = () => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
   const handleVariationChange = (values: string[]) => {
-    // Ensure at least one variation is always selected
     if (values.length > 0) {
       setSelectedVariations(values)
     }
@@ -65,7 +64,7 @@ export const VariationSelector = () => {
               key={variation.id}
               value={variation.value}
               aria-label={`Select ${variation.value}`}
-              className="data-[state=on]:bg-transparent data-[state=on]:text-foreground w-full justify-start gap-2"
+              className="w-full justify-start gap-2 shadow-none border-none"
             >
               {selectedVariations.includes(variation.value) ? <SquareCheck /> : <Square />}
               {variation.value}
