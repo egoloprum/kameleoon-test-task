@@ -32,22 +32,25 @@
   border-top: 1px solid #e5e7eb;
 }
 
-.tooltipContent {
+.tooltipList {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .tooltipItem {
   border: 1px dashed #d1d5db;
   border-radius: 4px;
+  padding: 4px;
 }
 
 .tooltipItemContent {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 0;
 }
 
 .tooltipLeft {
@@ -69,10 +72,6 @@
 .trophyIcon {
   width: 16px;
   height: 16px;
-}
-
-.tooltipRight {
-  text-align: right;
 }
 
 .percentage {

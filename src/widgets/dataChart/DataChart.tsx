@@ -98,38 +98,38 @@ const CustomTooltip = ({ active, payload, label, selectedInterval }: TooltipProp
   }
 
   return (
-    <div className={styles.tooltip}>
-      <div className={styles.tooltipHeader}>
+    <article className={styles.tooltip}>
+      <header className={styles.tooltipHeader}>
         <Calendar className={styles.tooltipIcon} />
-        {displayDate}
-      </div>
+        <span>{displayDate}</span>
+      </header>
+
       <hr className={styles.tooltipDivider} />
-      <div className={styles.tooltipContent}>
+
+      <ul className={styles.tooltipList}>
         {sortedPayload.map((entry, index) => {
           const variationName = entry.dataKey as string
           const variation = variationMap[variationName]
           if (!variation) return null
 
           return (
-            <div key={variationName} className={styles.tooltipItem}>
+            <li key={variationName} className={styles.tooltipItem}>
               <div className={styles.tooltipItemContent}>
                 <div className={styles.tooltipLeft}>
-                  <div
+                  <span
                     className={styles.colorDot}
                     style={{ backgroundColor: variation.colorStroke }}
                   />
                   <span className={styles.variationName}>{variation.name}</span>
                   {index === 0 && <Trophy className={styles.trophyIcon} />}
                 </div>
-                <div className={styles.tooltipRight}>
-                  <span className={styles.percentage}>{entry.value?.toFixed(2)}%</span>
-                </div>
+                <strong className={styles.percentage}>{entry.value?.toFixed(2)}%</strong>
               </div>
-            </div>
+            </li>
           )
         })}
-      </div>
-    </div>
+      </ul>
+    </article>
   )
 }
 
@@ -213,7 +213,7 @@ export const DataChart = ({
   }
 
   return (
-    <div>
+    <figure>
       <ChartContainer config={chartConfig} className={styles.chartContainer}>
         <ChartComponent
           accessibilityLayer
@@ -264,7 +264,7 @@ export const DataChart = ({
           {visibleVariations.map(renderChartElement)}
         </ChartComponent>
       </ChartContainer>
-    </div>
+    </figure>
   )
 }
 
