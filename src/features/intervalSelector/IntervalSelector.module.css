@@ -1,0 +1,16 @@
+.popoverTrigger {
+  max-width: 120px;
+  width: 100%;
+}
+
+.popoverContent {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+}
+
+.toggle {
+  justify-content: flex-start;
+  gap: 8px;
+}

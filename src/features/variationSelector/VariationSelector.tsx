@@ -4,6 +4,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/shared/components/ui/toggle-grou
 import { useAppContext } from '@/shared/lib/context'
 import { Square, SquareCheck } from 'lucide-react'
 import { useState } from 'react'
+import styles from './VariationSelector.module.css'
 
 const variations = [
   {
@@ -46,16 +47,16 @@ export const VariationSelector = () => {
 
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-      <PopoverTrigger asChild className="w-50">
+      <PopoverTrigger asChild className={styles.popoverTrigger}>
         <Button variant="outline">{getTriggerText()}</Button>
       </PopoverTrigger>
-      <PopoverContent className="w-fit">
+      <PopoverContent className={styles.popoverContent}>
         <ToggleGroup
           type="multiple"
           variant="outline"
           spacing={2}
           size="sm"
-          className="flex flex-col"
+          className={styles.toggleGroup}
           value={selectedVariations}
           onValueChange={handleVariationChange}
         >
@@ -64,7 +65,7 @@ export const VariationSelector = () => {
               key={variation.id}
               value={variation.value}
               aria-label={`Select ${variation.value}`}
-              className="w-full justify-start gap-2 shadow-none border-none"
+              className={styles.toggleGroupItem}
             >
               {selectedVariations.includes(variation.value) ? <SquareCheck /> : <Square />}
               {variation.value}

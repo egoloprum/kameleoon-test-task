@@ -1,0 +1,80 @@
+.chartContainer {
+  aspect-ratio: auto;
+  height: 250px;
+  width: 100%;
+}
+
+.tooltip {
+  min-width: 200px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+  padding: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.tooltipHeader {
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tooltipIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.tooltipDivider {
+  margin: 8px 0;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+.tooltipContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tooltipItem {
+  border: 1px dashed #d1d5db;
+  border-radius: 4px;
+}
+
+.tooltipItemContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.tooltipLeft {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.colorDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.variationName {
+  font-size: 12px;
+}
+
+.trophyIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.tooltipRight {
+  text-align: right;
+}
+
+.percentage {
+  font-weight: 500;
+}

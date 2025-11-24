@@ -1,0 +1,21 @@
+.popoverTrigger {
+  width: 200px;
+}
+
+.popoverContent {
+  width: 200px;
+}
+
+.toggleGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.toggleGroupItem {
+  width: 100%;
+  justify-content: flex-start;
+  gap: 8px;
+  box-shadow: none;
+  border: none;
+}

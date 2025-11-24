@@ -4,6 +4,7 @@ import { Toggle } from '@/shared/components/ui/toggle'
 import { useAppContext } from '@/shared/lib/context'
 import { Square, SquareCheck } from 'lucide-react'
 import { useState } from 'react'
+import styles from './LineStyleSelector.module.css'
 
 const LINE_STYLES = ['Line', 'Smooth', 'Area'] as const
 
@@ -18,17 +19,17 @@ export const LineStyleSelector = () => {
 
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-      <PopoverTrigger asChild className="w-40">
+      <PopoverTrigger asChild className={styles.popoverTrigger}>
         <Button variant="outline">Line style: {selectedLineStyle}</Button>
       </PopoverTrigger>
-      <PopoverContent className="w-fit flex flex-col">
+      <PopoverContent className={styles.popoverContent}>
         {LINE_STYLES.map(lineStyle => (
           <Toggle
             key={lineStyle}
             pressed={selectedLineStyle === lineStyle}
             onPressedChange={() => handleLineStyleSelect(lineStyle)}
             aria-label={`Select ${lineStyle}`}
-            className="data-[state=on]:bg-transparent data-[state=on]:text-foreground justify-start gap-2"
+            className={styles.toggle}
           >
             {selectedLineStyle === lineStyle ? <SquareCheck /> : <Square />}
             {lineStyle}

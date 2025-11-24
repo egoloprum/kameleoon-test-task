@@ -1,7 +1,7 @@
 import styles from './App.module.css'
 import { IntervalSelector, LineStyleSelector, VariationSelector } from './features'
 import { AppProvider, useAppContext } from './shared/lib/context'
-import { DataChart } from './widgets/dataChart/dataChart'
+import { DataChart } from './widgets/dataChart/DataChart'
 
 function AppContent() {
   const { selectedVariations, selectedLineStyle, selectedInterval } = useAppContext()

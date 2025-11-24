@@ -12,6 +12,7 @@ import { type ChartConfig, ChartContainer, ChartTooltip } from '@/shared/compone
 import { chartData } from './chartData'
 import { safeGet, transformDataByInterval } from './charthelper'
 import { Calendar, Trophy } from 'lucide-react'
+import styles from './DataChart.module.css'
 
 interface Variation {
   id: number
@@ -97,31 +98,31 @@ const CustomTooltip = ({ active, payload, label, selectedInterval }: TooltipProp
   }
 
   return (
-    <div className="min-w-[200px] rounded border bg-background p-3 shadow-sm">
-      <div className="font-medium flex gap-2 items-center">
-        <Calendar className="w-4 h-4" />
+    <div className={styles.tooltip}>
+      <div className={styles.tooltipHeader}>
+        <Calendar className={styles.tooltipIcon} />
         {displayDate}
       </div>
-      <hr className="my-2" />
-      <div className="space-y-2">
+      <hr className={styles.tooltipDivider} />
+      <div className={styles.tooltipContent}>
         {sortedPayload.map((entry, index) => {
           const variationName = entry.dataKey as string
           const variation = variationMap[variationName]
           if (!variation) return null
 
           return (
-            <div key={variationName} className="border border-dashed rounded-sm">
-              <div className="flex justify-between items-center py-1">
-                <div className="flex items-center gap-1">
+            <div key={variationName} className={styles.tooltipItem}>
+              <div className={styles.tooltipItemContent}>
+                <div className={styles.tooltipLeft}>
                   <div
-                    className="w-2 h-2 rounded-full"
+                    className={styles.colorDot}
                     style={{ backgroundColor: variation.colorStroke }}
                   />
-                  <span className="text-xs">{variation.name}</span>
-                  {index === 0 && <Trophy className="w-4 h-4" />}
+                  <span className={styles.variationName}>{variation.name}</span>
+                  {index === 0 && <Trophy className={styles.trophyIcon} />}
                 </div>
-                <div className="text-right">
-                  <span className="font-medium">{entry.value?.toFixed(2)}%</span>
+                <div className={styles.tooltipRight}>
+                  <span className={styles.percentage}>{entry.value?.toFixed(2)}%</span>
                 </div>
               </div>
             </div>
@@ -213,7 +214,7 @@ export const DataChart = ({
 
   return (
     <div>
-      <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
+      <ChartContainer config={chartConfig} className={styles.chartContainer}>
         <ChartComponent
           accessibilityLayer
           data={transformedChartData}
