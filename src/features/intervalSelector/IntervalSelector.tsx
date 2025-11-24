@@ -4,7 +4,7 @@ import { Button } from '@/shared/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover'
 import { Toggle } from '@/shared/components/ui/toggle'
 import { useAppContext } from '@/shared/lib/context'
-import { Square, SquareCheck } from 'lucide-react'
+import { ChevronDown, Square, SquareCheck } from 'lucide-react'
 import { useState } from 'react'
 
 export const IntervalSelector = () => {
@@ -19,7 +19,10 @@ export const IntervalSelector = () => {
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
       <PopoverTrigger asChild className={styles.popoverTrigger}>
-        <Button variant="outline">{selectedInterval}</Button>
+        <Button variant="outline">
+          {selectedInterval}
+          <ChevronDown className={`${styles.chevron} ${isPopoverOpen ? styles.chevronOpen : ''}`} />
+        </Button>
       </PopoverTrigger>
       <PopoverContent className={styles.popoverContent}>
         <Toggle

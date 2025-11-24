@@ -1,16 +1,23 @@
 .popoverTrigger {
-  max-width: 120px;
-  width: 100%;
+  width: 80px;
 }
 
 .popoverContent {
   width: fit-content;
   display: flex;
   flex-direction: column;
-  width: 120px;
 }
 
 .toggle {
   justify-content: flex-start;
   gap: 8px;
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+  margin-left: auto;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
 }

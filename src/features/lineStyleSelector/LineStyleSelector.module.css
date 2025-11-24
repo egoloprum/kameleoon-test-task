@@ -15,3 +15,12 @@
   align-items: center;
   gap: 8px;
 }
+
+.chevron {
+  transition: transform 0.2s ease;
+  margin-left: auto;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}

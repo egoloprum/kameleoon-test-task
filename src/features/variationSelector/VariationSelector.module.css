@@ -1,9 +1,9 @@
 .popoverTrigger {
-  width: 200px;
+  width: 220px;
 }
 
 .popoverContent {
-  width: 200px;
+  width: 220px;
 }
 
 .toggleGroup {
@@ -18,4 +18,13 @@
   gap: 8px;
   box-shadow: none;
   border: none;
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+  margin-left: auto;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
 }

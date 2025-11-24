@@ -2,7 +2,7 @@ import { Button } from '@/shared/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover'
 import { ToggleGroup, ToggleGroupItem } from '@/shared/components/ui/toggle-group'
 import { useAppContext } from '@/shared/lib/context'
-import { Square, SquareCheck } from 'lucide-react'
+import { ChevronDown, Square, SquareCheck } from 'lucide-react'
 import { useState } from 'react'
 import styles from './VariationSelector.module.css'
 
@@ -48,7 +48,10 @@ export const VariationSelector = () => {
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
       <PopoverTrigger asChild className={styles.popoverTrigger}>
-        <Button variant="outline">{getTriggerText()}</Button>
+        <Button variant="outline">
+          {getTriggerText()}
+          <ChevronDown className={`${styles.chevron} ${isPopoverOpen ? styles.chevronOpen : ''}`} />
+        </Button>
       </PopoverTrigger>
       <PopoverContent className={styles.popoverContent}>
         <ToggleGroup
