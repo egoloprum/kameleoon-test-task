@@ -1,36 +1,32 @@
 import { Button } from '@/shared/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover'
 import { ToggleGroup, ToggleGroupItem } from '@/shared/components/ui/toggle-group'
+import { useAppContext } from '@/shared/lib/context'
 import { Square, SquareCheck } from 'lucide-react'
 import { useState } from 'react'
 
-export const VariationSelector = ({}) => {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  const [selectedVariations, setSelectedVariations] = useState<string[]>([
-    'Original',
-    'Variation A',
-    'Variation B',
-    'Variation C',
-  ])
+const variations = [
+  {
+    id: 0,
+    value: 'Original',
+  },
+  {
+    id: 10001,
+    value: 'Variation A',
+  },
+  {
+    id: 10002,
+    value: 'Variation B',
+  },
+  {
+    id: 10003,
+    value: 'Variation C',
+  },
+]
 
-  const variations = [
-    {
-      id: 1,
-      value: 'Original',
-    },
-    {
-      id: 2,
-      value: 'Variation A',
-    },
-    {
-      id: 3,
-      value: 'Variation B',
-    },
-    {
-      id: 4,
-      value: 'Variation C',
-    },
-  ]
+export const VariationSelector = () => {
+  const { selectedVariations, setSelectedVariations } = useAppContext()
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
   const handleVariationChange = (values: string[]) => {
     // Ensure at least one variation is always selected

@@ -1,25 +1,25 @@
 import { Button } from '@/shared/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover'
 import { Toggle } from '@/shared/components/ui/toggle'
+import { useAppContext } from '@/shared/lib/context'
 import { Square, SquareCheck } from 'lucide-react'
 import { useState } from 'react'
 
-type LineStyle = 'Style 1' | 'Style 2' | 'Style 3' | 'Style 4'
-const LINE_STYLES: LineStyle[] = ['Style 1', 'Style 2', 'Style 3', 'Style 4']
+const LINE_STYLES = ['Line', 'Smooth', 'Area'] as const
 
-export const LineStyleSelector = ({}) => {
-  const [selectedLineStyle, setSelectedLineStyle] = useState<LineStyle>('Style 1')
+export const LineStyleSelector = () => {
+  const { selectedLineStyle, setSelectedLineStyle } = useAppContext()
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
-  const handleLineStyleSelect = (lineStyle: LineStyle) => {
+  const handleLineStyleSelect = (lineStyle: (typeof LINE_STYLES)[number]) => {
     setSelectedLineStyle(lineStyle)
     setIsPopoverOpen(false)
   }
 
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-      <PopoverTrigger asChild className="w-20">
-        <Button variant="outline">{selectedLineStyle}</Button>
+      <PopoverTrigger asChild className="w-40">
+        <Button variant="outline">Line style: {selectedLineStyle}</Button>
       </PopoverTrigger>
       <PopoverContent className="w-fit flex flex-col">
         {LINE_STYLES.map(lineStyle => (
