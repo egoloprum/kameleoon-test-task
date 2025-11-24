@@ -13,6 +13,13 @@
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
+/* Dark theme styles */
+:global(.dark) .tooltip {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
 .tooltipHeader {
   font-weight: 500;
   display: flex;
@@ -21,15 +28,27 @@
   margin-bottom: 8px;
 }
 
+:global(.dark) .tooltipHeader {
+  color: #f9fafb;
+}
+
 .tooltipIcon {
   width: 16px;
   height: 16px;
+}
+
+:global(.dark) .tooltipIcon {
+  color: #d1d5db;
 }
 
 .tooltipDivider {
   margin: 8px 0;
   border: none;
   border-top: 1px solid #e5e7eb;
+}
+
+:global(.dark) .tooltipDivider {
+  border-top-color: #374151;
 }
 
 .tooltipList {
@@ -45,6 +64,10 @@
   border: 1px dashed #d1d5db;
   border-radius: 4px;
   padding: 4px;
+}
+
+:global(.dark) .tooltipItem {
+  border-color: #4b5563;
 }
 
 .tooltipItemContent {
@@ -69,11 +92,23 @@
   font-size: 12px;
 }
 
+:global(.dark) .variationName {
+  color: #e5e7eb;
+}
+
 .trophyIcon {
   width: 16px;
   height: 16px;
 }
 
+:global(.dark) .trophyIcon {
+  color: #fbbf24;
+}
+
 .percentage {
   font-weight: 500;
+}
+
+:global(.dark) .percentage {
+  color: #f9fafb;
 }

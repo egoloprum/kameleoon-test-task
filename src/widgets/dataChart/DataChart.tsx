@@ -47,26 +47,26 @@ const variations: Variation[] = [
   {
     id: 0,
     name: 'Original',
-    colorStroke: '#4142EF',
-    colorFill: '#3838E7',
+    colorStroke: 'var(--chart-stroke-original)',
+    colorFill: 'var(--chart-fill-original)',
   },
   {
     id: 10001,
     name: 'Variation A',
-    colorStroke: '#46464F',
-    colorFill: '#303039',
+    colorStroke: 'var(--chart-stroke-variation-a)',
+    colorFill: 'var(--chart-fill-variation-a)',
   },
   {
     id: 10002,
     name: 'Variation B',
-    colorStroke: '#FF8346',
-    colorFill: '#FF661A',
+    colorStroke: 'var(--chart-stroke-variation-b)',
+    colorFill: 'var(--chart-fill-variation-b)',
   },
   {
     id: 10003,
     name: 'Variation C',
-    colorStroke: '#35BDAD',
-    colorFill: '#7cebde',
+    colorStroke: 'var(--chart-stroke-variation-c)',
+    colorFill: 'var(--chart-fill-variation-c)',
   },
 ]
 
@@ -225,9 +225,14 @@ export const DataChart = ({
             bottom: 12,
           }}
         >
-          <CartesianGrid vertical={false} horizontal={true} stroke="#e0e0e0" />
+          <CartesianGrid vertical={false} horizontal={true} stroke="var(--border)" />
           {transformedChartData.map((entry, index) => (
-            <ReferenceLine key={index} x={entry.date} stroke="#e0e0e0" strokeDasharray="5 5" />
+            <ReferenceLine
+              key={index}
+              x={entry.date}
+              stroke="var(--border)"
+              strokeDasharray="5 5"
+            />
           ))}
           <XAxis
             dataKey="date"
@@ -274,18 +279,18 @@ const chartConfig = {
   },
   Original: {
     label: 'Original',
-    color: '#4142EF',
+    color: 'var(--chart-stroke-original)',
   },
   'Variation A': {
     label: 'Variation A',
-    color: '#46464F',
+    color: 'var(--chart-stroke-variation-a)',
   },
   'Variation B': {
     label: 'Variation B',
-    color: '#FF8346',
+    color: 'var(--chart-stroke-variation-b)',
   },
   'Variation C': {
     label: 'Variation C',
-    color: '#35BDAD',
+    color: 'var(--chart-stroke-variation-c)',
   },
 } satisfies ChartConfig

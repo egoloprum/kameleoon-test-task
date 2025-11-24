@@ -3,12 +3,9 @@
   justify-content: space-between;
 }
 
-.controlBarLeftSide {
+.controlBarSide {
   display: flex;
   gap: 8px;
-}
-
-.controlBarRightSide {
 }
 
 .chart {

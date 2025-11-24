@@ -1,5 +1,5 @@
 import styles from './App.module.css'
-import { IntervalSelector, LineStyleSelector, VariationSelector } from './features'
+import { IntervalSelector, LineStyleSelector, ThemeToggler, VariationSelector } from './features'
 import { AppProvider, useAppContext } from './shared/lib/context'
 import { DataChart } from './widgets/dataChart/DataChart'
 
@@ -9,12 +9,13 @@ function AppContent() {
   return (
     <main className="">
       <section className={styles.controlBar}>
-        <div className={styles.controlBarLeftSide}>
+        <div className={styles.controlBarSide}>
           <VariationSelector />
           <IntervalSelector />
         </div>
-        <div>
+        <div className={styles.controlBarSide}>
           <LineStyleSelector />
+          <ThemeToggler />
         </div>
       </section>
       <div className={styles.chart}>
