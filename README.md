@@ -4,7 +4,7 @@ A responsive React application for visualizing conversion rate data across multi
 
 ## 🚀 Live Demo
 
-[View Live Demo on GitHub Pages](https://your-username.github.io/works-tasks)
+[View Live Demo on GitHub Pages](https://kameleoon-test-task-omega.vercel.app/)
 
 ## 📊 Features
 
